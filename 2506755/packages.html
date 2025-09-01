@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- page setup-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Packages</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <!-- PAGE HEADER-->
+    <div class="packageHeader">
+        <!-- Main cover image for the Packages page -->
+        <img alt="packageCover" class="packageCov" src="images/packageMainCover.JPG">
+
+        <!-- Navigation Bar -->
+        <nav>
+            <!-- Logo and brand name linking to home page -->
+            <div class="logo">
+                <a href="home.html">
+                    <img alt="logo" src="images/logo.png">
+                    <h5 class="vanishName">Travel SriLanka</h5>
+                </a>
+            </div>
+
+            <!-- Navigation links for main pages -->
+            <ul class="nav-items">
+                <li><a href="home.html">Home</a></li>
+                <li><a class="active" href="packages.html">Packages</a></li>
+                <li><a href="places.html">Places</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+
+            <!-- Shopping cart icon and label -->
+            <div class="cart">
+                <a href="cart.html">
+                    <h5 class="vanishName">Cart</h5>
+                    <img alt="cart" src="images/cart.png">
+                </a>
+            </div>
+        </nav>
+
+        <!-- PACKAGES, MAIN CONTENT SECTION -->
+        <div class="packagesBox">
+
+            <!-- SIDEBAR (FILTERS) -->
+            <div class="sidebar">
+                <h3>Filter Packages</h3>
+
+                <!-- Filter by price range -->
+                <div class="filterGroup">
+                    <label>Price Range (USD)</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="price" value="0-500"> $0 - $500</label>
+                        <label><input type="checkbox" name="price" value="500-1500"> $500 - $1500</label>
+                        <label><input type="checkbox" name="price" value="1500-2500"> $1500 - $2500</label>
+                        <label><input type="checkbox" name="price" value="2500-3500"> $2500 - $3500</label>
+                    </div>
+                </div>
+
+                <!-- Filter by package type -->
+                <div class="filterGroup">
+                    <label>Type</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="type" value="Budget"> Budget</label>
+                        <label><input type="checkbox" name="type" value="Mid-range"> Mid-range</label>
+                        <label><input type="checkbox" name="type" value="Luxury"> Luxury</label>
+                    </div>
+                </div>
+
+                <!-- Filter by trip duration -->
+                <div class="filterGroup">
+                    <label>Duration</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="duration" value="5"> 5 Day</label>
+                        <label><input type="checkbox" name="duration" value="7"> 7 Day</label>
+                        <label><input type="checkbox" name="duration" value="10"> 10 Day</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AREA WHERE PACKAGES WILL BE DISPLAYED -->
+            <div class="otherbar">
+                <!-- Packages get loaded here using JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER SECTION -->
+    <div class="footer">
+        <div class="footer-content">
+            <!-- Quick navigation links -->
+            <div class="footer-section links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="packages.html">Packages</a></li>
+                    <li><a href="places.html">Places</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact info -->
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: info@travelsrilanka.com</p>
+                <p>Phone: +94 77 123 4567</p>
+            </div>
+
+            <!-- Social media links -->
+            <div class="footer-section">
+                <h3>Socials</h3>
+                <div class="socials">
+                    <a class="icon" href="#"><img alt="C01" src="images/facebook.png"></a>
+                    <a class="icon" href="#"><img alt="C02" src="images/instagram.png"></a>
+                    <a class="icon" href="#"><img alt="C03" src="images/twitter.png"></a>
+                    <a class="icon" href="#"><img alt="C04" src="images/whatsapp.png"></a>
+                </div>
+            </div>
+
+            <!-- Footer logo -->
+            <div class="footer-section-img">
+                <a href="home.html"><img alt="logo" src="images/logo.png"></a>
+            </div>
+        </div>
+
+        <!-- copyright -->
+        <div class="footer-bottom">
+            &copy; 2025 Sri Lanka Travel Agency. All rights reserved.
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT FOR FILTERS AND CART -->
+    <script>
+        // if user clicks on the "Add to Cart" buttons
+        document.addEventListener("click", function (e) {
+            if (e.target.classList.contains("add-to-cart")) {
+                e.preventDefault();
+
+                // Collect package data from the clicked button
+                const packageData = {
+                    title: e.target.dataset.title,
+                    price: parseFloat(e.target.dataset.price),
+                    image: e.target.dataset.image,
+                    duration: e.target.dataset.duration,
+                    link: e.target.dataset.link
+                };
+
+                // Retrieve existing cart from localStorage or create a new one
+                let cart = JSON.parse(localStorage.getItem("cart")) || [];
+                cart.push(packageData); // Add the new package to the cart
+                localStorage.setItem("cart", JSON.stringify(cart)); // Save updated cart
+
+                alert("Package added to cart!"); // Confirmation message
+            }
+        });
+
+        // Run after the page loaded
+        document.addEventListener("DOMContentLoaded", function () {
+            let allPackages = []; // Store all available packages here
+
+            // Function to display packages on the page
+            function showPackages(filtered) {
+                const container = document.querySelector(".otherbar");
+                container.innerHTML = ""; // Clear any existing packages
+
+                filtered.forEach(pkg => {
+                    // Create star rating icons for each package
+                    let starHTML = "";
+                    for (let i = 0; i < pkg.stars; i++) {
+                        starHTML += `<i class="star">&#9733;</i>`;
+                    }
+
+                    // Build the package card
+                    const html = `
+                    <div class="packageCard">
+                        <div class="package-image">
+                            <img alt="Location" src="${pkg.image}">
+                        </div>
+                        <div class="package-details">
+                            <div class="package-header">
+                                <h3>${pkg.title}</h3>
+                                <div class="stars">${starHTML}</div>
+                            </div>
+                            <p>${pkg.review}</p>
+                            <p><strong>Destinations:</strong> ${pkg.destinations}</p>
+                            <p><strong>Duration:</strong> ${pkg.duration} days</p>
+                            <p><strong>Price:</strong> <del>$${pkg.priceOld}</del> 
+                                <span class="price">$${pkg.priceNew}</span></p>
+                            <a href="#" class="btn add-to-cart" 
+                                data-title="${pkg.title}" 
+                                data-price="${pkg.priceNew}" 
+                                data-image="${pkg.image}" 
+                                data-duration="${pkg.duration}" 
+                                data-link="${pkg.link}">
+                                Add To Cart
+                            </a>
+                        </div>
+                    </div>`;
+                    container.innerHTML += html; // Add package card to PAGE
+                });
+            }
+
+            // Function for filter packages based on selected checkboxes
+            function applyFilters() {
+                const selectedPrices = [...document.querySelectorAll("input[name='price']:checked")].map(cb => cb.value);
+                const selectedTypes = [...document.querySelectorAll("input[name='type']:checked")].map(cb => cb.value);
+                const selectedDurations = [...document.querySelectorAll("input[name='duration']:checked")].map(cb => cb.value);
+
+                // Filter the packages based on selections
+                const filtered = allPackages.filter(pkg => {
+                    let match = true;
+
+                    // Filter by price range
+                    if (selectedPrices.length > 0) {
+                        match = match && selectedPrices.some(range => {
+                            const [min, max] = range.split("-").map(Number);
+                            return pkg.priceNew >= min && pkg.priceNew <= max;
+                        });
+                    }
+
+                    // Filter by package type
+                    if (selectedTypes.length > 0) {
+                        match = match && selectedTypes.includes(pkg.type);
+                    }
+
+                    // Filter by duration if
+                    if (selectedDurations.length > 0) {
+                        match = match && selectedDurations.includes(pkg.duration.toString());
+                    }
+
+                    return match; // Keep the package if it passes all checks
+                });
+
+                showPackages(filtered); // Display the filtered packages
+            }
+
+            // Fetch package data from XML file
+            fetch("details.xml")
+                .then(response => response.text())
+                .then(data => {
+                    const parser = new DOMParser();
+                    const xml = parser.parseFromString(data, "application/xml");
+                    const packages = xml.querySelectorAll("package");
+
+                    // Convert XML data into JavaScript objects
+                    allPackages = Array.from(packages).map(p => ({
+                        title: p.querySelector("title").textContent,
+                        image: p.querySelector("image").textContent,
+                        review: p.querySelector("review").textContent,
+                        destinations: p.querySelector("destinations").textContent,
+                        duration: parseInt(p.querySelector("duration").textContent),
+                        priceOld: parseFloat(p.querySelector("price_old").textContent),
+                        priceNew: parseFloat(p.querySelector("price_new").textContent),
+                        type: p.querySelector("type").textContent,
+                        stars: parseInt(p.querySelector("stars").textContent),
+                        link: p.querySelector("link").textContent
+                    }));
+
+                    showPackages(allPackages); // Show all packages initially
+                });
+
+            // Apply filters whenever a checkbox changes
+            document.querySelectorAll(".sidebar input[type='checkbox']").forEach(cb => {
+                cb.addEventListener("change", applyFilters);
+            });
+        });
+    </script>
+
+</body>
+</html>
