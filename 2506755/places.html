@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Places</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <!-- Header Section -->
+    <div class="placeHeader">
+        <img class="packageCov" src="images/placeMainCover.JPG" alt="Places Cover">
+
+        <!-- Navigation -->
+        <nav>
+            <div class="logo">
+                <a href="home.html">
+                    <img src="images/logo.png" alt="Travel Sri Lanka Logo">
+                    <h5 class="vanishName">Travel SriLanka</h5>
+                </a>
+            </div>
+            <ul class="nav-items">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="packages.html">Packages</a></li>
+                <li><a class="active" href="places.html">Places</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+            <div class="cart">
+                <a href="cart.html">
+                    <h5 class="vanishName">Cart</h5>
+                    <img src="images/cart.png" alt="Cart">
+                </a>
+            </div>
+        </nav>
+
+        <!-- Intro Section -->
+        <div class="placeBox">
+            <h4>
+                Welcome to a land where every corner holds a new adventure. From the emerald peaks of Ella and the
+                sacred cities of Anuradhapura to the golden beaches of Trincomalee and the colonial charm of Galle,
+                Sri Lanka is a vibrant tapestry of culture, nature, and history. Whether you're seeking wildlife safaris
+                in lush jungles, serene temple visits, or thrilling surf along the coast, each destination offers a
+                unique experience shaped by centuries of tradition and breathtaking beauty.
+            </h4>
+
+            <!-- Places Loaded from XML -->
+            <div class="locationPageBox"></div>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    fetch("details.xml")
+                        .then(response => response.text())
+                        .then(data => {
+                            const parser = new DOMParser();
+                            const xml = parser.parseFromString(data, "application/xml");
+                            const places = xml.querySelectorAll("places > place");
+                            const container = document.querySelector(".locationPageBox");
+
+                            places.forEach(place => {
+                                const title = place.querySelector("title").textContent;
+                                const image = place.querySelector("image").textContent;
+                                const description = place.querySelector("description").textContent;
+                                const link = place.querySelector("link").textContent;
+
+                                const html = `
+                                    <div class="placePageBox">
+                                        <img src="${image}" alt="${title}">
+                                        <h6>${title}</h6>
+                                        <p>${description}</p>
+                                        <a href="${link}" target="_blank" class="plbtn">Read More</a>
+                                    </div>
+                                `;
+                                container.innerHTML += html;
+                            });
+                        })
+                        .catch(error => console.error("Error loading XML:", error));
+                });
+            </script>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <!-- Quick Links -->
+            <div class="footer-section links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="packages.html">Packages</a></li>
+                    <li><a href="places.html">Places</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: info@travelsrilanka.com</p>
+                <p>Phone: +94 77 123 4567</p>
+            </div>
+
+            <!-- Social Media -->
+            <div class="footer-section">
+                <h3>Socials</h3>
+                <div class="socials">
+                    <a class="icon" href="#"><img src="images/facebook.png" alt="Facebook"></a>
+                    <a class="icon" href="#"><img src="images/instagram.png" alt="Instagram"></a>
+                    <a class="icon" href="#"><img src="images/twitter.png" alt="Twitter"></a>
+                    <a class="icon" href="#"><img src="images/whatsapp.png" alt="WhatsApp"></a>
+                </div>
+            </div>
+
+            <!-- Logo -->
+            <div class="footer-section-img">
+                <a href="home.html"><img src="images/logo.png" alt="Travel Sri Lanka Logo"></a>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            &copy; 2025 Sri Lanka Travel Agency. All rights reserved.
+        </div>
+    </div>
+</body>
+</html>
