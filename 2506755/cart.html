@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <!-- HEADER SECTION -->
+    <div class="cartHeader">
+        <!-- Cover image for the cart page -->
+        <img class="cartCov" alt="cartCover" src="images/cartCover.jpg">
+
+        <!-- Navigation bar -->
+        <nav>
+            <!-- Logo section -->
+            <div class="logo">
+                <a href="home.html">
+                    <img alt="logo" src="images/logo.png">
+                    <h5 class="vanishName">Travel SriLanka</h5> <!-- Text logo for small screens -->
+                </a>
+            </div>
+
+            <!-- Navigation links -->
+            <ul class="nav-items">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="packages.html">Packages</a></li>
+                <li><a href="places.html">Places</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- MAIN CART SECTION -->
+    <div class="cartScetion">
+        <div class="cartBox">
+            <h2>Cart</h2>
+
+            <div class="cartContent">
+                <!-- Left column: Cart items -->
+                <div class="cartColumn">
+                    <div class="cartPackages"></div> <!-- Items will be injected here via JavaScript -->
+                </div>
+
+                <!-- Right column: Booking form -->
+                <div class="bookingForm">
+                    <h3>Booking Details</h3>
+                    <form id="bookingForm" aria-label="Travel Booking Form">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" aria-required="true" aria-label="Full Name">
+
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" aria-required="true" aria-label="Email Address">
+
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" aria-required="true" aria-label="Phone Number">
+
+                        <label for="startDate">Starting Date</label>
+                        <input type="date" id="startDate" name="startDate" aria-required="true"
+                            aria-label="Trip Start Date">
+
+                        <label for="passengers">Number of Passengers</label>
+                        <input type="number" id="passengers" name="passengers" min="1" max="20"
+                            aria-required="true" aria-label="Number of Passengers">
+
+                        <fieldset>
+                            <legend>Payment Method</legend>
+                            <input type="radio" aria-label="CreditCard" name="paymentMethod" value="Credit Card"> Credit Card
+                            <input type="radio" aria-label="PayPal" name="paymentMethod" value="PayPal"> PayPal
+                        </fieldset>
+
+                        <br><br>
+                        <div class="term">
+                            <input type="checkbox" id="agreeTerms" name="agreeTerms" aria-required="true"
+                                aria-label="Agree to Terms and Conditions">I agree to the Terms and Conditions
+                        </div>
+                        <br><br>
+                        <label for="notes">Additional Notes</label>
+                        <textarea id="notes" name="notes" aria-label="Additional Notes"></textarea>
+
+                        <button type="submit">Checkout</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="footer-content">
+            <!-- Quick links section -->
+            <div class="footer-section links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="packages.html">Packages</a></li>
+                    <li><a href="places.html">Places</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact information -->
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: info@travelsrilanka.com</p>
+                <p>Phone: +94 77 123 4567</p>
+            </div>
+
+            <!-- Social media links -->
+            <div class="footer-section">
+                <h3>Socials</h3>
+                <div class="socials">
+                    <a class="icon" href="#"><img alt="C01" src="images/facebook.png"></a>
+                    <a class="icon" href="#"><img alt="C02" src="images/instagram.png"></a>
+                    <a class="icon" href="#"><img alt="C03" src="images/twitter.png"></a>
+                    <a class="icon" href="#"><img alt="C04" src="images/whatsapp.png"></a>
+                </div>
+            </div>
+
+            <!-- Footer logo -->
+            <div class="footer-section-img">
+                <a href="home.html"><img alt="logo" src="images/logo.png"></a>
+            </div>
+        </div>
+
+        <!-- Footer bottom note -->
+        <div class="footer-bottom">
+            &copy; 2025 Sri Lanka Travel Agency. All rights reserved.
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT FUNCTIONALITYS -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get cart data from localStorage (or empty array if not found)
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+            const cartContainer = document.querySelector(".cartPackages");
+            cartContainer.innerHTML = ""; // Clear any old content
+
+            let total = 0; // Track total price
+
+            // If the cart is empty
+            if (cart.length === 0) {
+                cartContainer.innerHTML = "<p>Your cart is empty.</p>";
+            } else {
+                // Loop through cart items and display them
+                cart.forEach((item, index) => {
+                    total += item.price; // Add item price to total
+
+                    // Create HTML for each cart item
+                    const packageHTML = `
+                        <div class="cart-item">
+                            <img src="${item.image}" alt="${item.title}">
+                            <div class="cart-pp">
+                                <h4>${item.title}</h4>
+                                <p>Duration: ${item.duration} days</p>
+                                <p>Price: $${item.price.toFixed(2)}</p>
+                                <button class="remove-item" data-index="${index}">Remove</button>
+                            </div>
+                        </div>
+                    `;
+                    cartContainer.innerHTML += packageHTML;
+                });
+
+                // Display the total price
+                const totalElement = document.createElement("h3");
+                totalElement.textContent = `Total: $${total.toFixed(2)}`;
+                cartContainer.appendChild(totalElement);
+            }
+
+            // REMOVE ITEM FUNCTION
+            cartContainer.addEventListener("click", function (e) {
+                if (e.target.classList.contains("remove-item")) {
+                    let index = e.target.dataset.index; // Get item index
+                    cart.splice(index, 1); // Remove from array
+                    localStorage.setItem("cart", JSON.stringify(cart)); // Update localStorage
+                    location.reload(); // Reload page And update page
+                }
+            });
+
+            // CHECKOUT FORM VALIDATION
+            document.getElementById("bookingForm").addEventListener("submit", function (e) {
+                e.preventDefault(); // Stop form from submitting
+
+                // Get form values
+                let name = document.getElementById("fullName").value.trim();
+                let email = document.getElementById("email").value.trim();
+                let phone = document.getElementById("phone").value.trim();
+                let startDate = document.getElementById("startDate").value;
+                let passengers = document.getElementById("passengers").value;
+                let paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+                let agreeTerms = document.getElementById("agreeTerms").checked;
+
+                // Name validation
+                if (name.length < 3) {
+                    alert("Please enter a valid name (at least 3 characters).");
+                    return;
+                }
+
+                // Email validation using regex
+                let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(email)) {
+                    alert("Please enter a valid email address.");
+                    return;
+                }
+
+                // Phone validation (only numbers, 7–15 digits)
+                let phonePattern = /^[0-9]{7,15}$/;
+                if (!phonePattern.test(phone)) {
+                    alert("Please enter a valid phone number (7-15 digits).");
+                    return;
+                }
+
+                // Date validation (must be in the future)
+                if (!startDate) {
+                    alert("Please select a starting date.");
+                    return;
+                }
+                let today = new Date();
+                today.setHours(0, 0, 0, 0); // Reset to midnight
+                let selectedDate = new Date(startDate);
+                if (selectedDate <= today) {
+                    alert("Starting date must be in the future.");
+                    return;
+                }
+
+                if (passengers < 1 || passengers > 20) {
+                    alert("Number of passengers must be between 1 and 20.");
+                    return;
+                }
+                if (!paymentMethod) {
+                    alert("Please select a payment method.");
+                    return;
+                }
+                if (!agreeTerms) {
+                    alert("You must agree to the Terms and Conditions.");
+                    return;
+                }
+
+                // Check if cart is empty
+                if (cart.length === 0) {
+                    alert("Your Cart is empty. Please add a package first.");
+                } else {
+                    // Success massage
+                    alert("Booking confirmed! We'll contact you soon.");
+                    localStorage.removeItem("cart"); // Clear cart
+                    window.location.href = "packages.html"; // Redirect to packages page
+                }
+            });
+        });
+    </script>
+</body>
+</html>
