@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Page setup and linking CSS -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel SriLanka</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <!-- HEADER SECTION (First Slide) -->
+    <div class="header">
+        <nav>
+            <!-- Logo with link to homepage -->
+            <div class="logo">
+                <a href="home.html">
+                    <img alt="logo" src="images/logo.png">
+                    <h5 class="vanishName">Travel SriLanka</h5>
+                </a>
+            </div>
+
+            <!-- Navigation Menu -->
+            <ul class="nav-items">
+                <li><a class="active" href="home.html">Home</a></li>
+                <li><a href="packages.html">Packages</a></li>
+                <li><a href="places.html">Places</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+
+            <!-- Cart Icon -->
+            <div class="cart">
+                <a href="cart.html">
+                    <h5 class="vanishName">Cart</h5>
+                    <img alt="cart" src="images/cart.png">
+                </a>
+            </div>
+        </nav>
+
+        <!-- Background video in header -->
+        <video autoplay muted loop src="images/home.mov"></video>
+
+        <!-- Hero text and search bar -->
+        <header-content>
+            <h1>Travel With Us</h1>
+            <h3>& Discover the Soul of the Indian Ocean</h3>
+            <form class="search">
+                <input type="text" aria-label="findHere" placeholder="Find Here">
+                <button type="submit">Search</button>
+            </form>
+        </header-content>
+    </div>
+
+    <!-- SECOND SECTION (Intro) -->
+    <div class="secScreen">
+        <h1>Let’s Explore Sri Lanka</h1>
+        <h3>
+            From the misty hills of Ella to the golden sands of Mirissa, Sri Lanka is a land of breathtaking beauty and
+            rich culture. Discover ancient temples, vibrant wildlife, and unforgettable local experiences all in one
+            magical island. Your journey begins here.
+        </h3>
+        <div class="booknow-btn">
+            <a href="packages.html" class="booknow">Book Now</a>
+        </div>
+    </div>
+
+    <!-- THIRD SECTION (Places) -->
+    <div class="thrScreen">
+        <h5>Most Beautiful Places in Sri Lanka</h5>
+        <div class="home-locations">
+            <!-- Each "box" = one featured location with image + short title (hardcoded) -->
+            <div class="box">
+                <img alt="L01" src="images/location1.webp">
+                <h4>Adam’s Peak, for a mountain pilgrimage</h4>
+            </div>
+            <div class="box">
+                <img alt="L02" src="images/location2.webp">
+                <h4>Galle, for colonial architecture</h4>
+            </div>
+            <div class="box">
+                <img alt="L03" src="images/location3.webp">
+                <h4>Sigiriya, for a huge rock fortress</h4>
+            </div>
+            <div class="box">
+                <img alt="L04" src="images/location4.webp">
+                <h4>Yala National Park, for spotting wildlife</h4>
+            </div>
+            <div class="box">
+                <img alt="L05" src="images/location5.webp">
+                <h4>Polonnaruwa, for temple ruins</h4>
+            </div>
+            <div class="box">
+                <img alt="L06" src="images/location6.webp">
+                <h4>The Cultural Triangle</h4>
+            </div>
+            <div class="box">
+                <img alt="L07" src="images/location7.webp">
+                <h4>Bentota, for laid-back vibes</h4>
+            </div>
+            <div class="box">
+                <img alt="L08" src="images/location8.webp">
+                <h4>Kandy, for seeing Buddha's Tooth</h4>
+            </div>
+        </div>
+        <div class="explore-btn">
+            <a href="places.html" class="expore">Explore More</a>
+        </div>
+    </div>
+
+    <!-- FOURTH SECTION (Why Choose Us) -->
+    <div class="forScreen">
+        <h5>Travel agency committed to you</h5>
+        <div class="forInfo">
+            <!-- Each "forBox" explains one selling point -->
+            <div class="forBox">
+                <img alt="PP01" src="images/f1.jpg">
+                <h4>Safety & Security</h4>
+                <p>Travel with confidence; all our tours are operated by licensed guides and trusted partners,
+                    ensuring your safety every step of the way</p>
+            </div>
+            <div class="forBox">
+                <img alt="PP02" src="images/f3.jpg">
+                <h4>Authentic Local Experience</h4>
+                <p>Discover Sri Lanka through local eyes; curated experiences, hidden gems, and real cultural
+                    connections that go beyond typical tours.</p>
+            </div>
+            <div class="forBox">
+                <img alt="PP04" src="images/f4.jpg">
+                <h4>Satisfaction & Quality</h4>
+                <p>We deliver what we promise; handpicked experiences, transparent pricing, and outstanding service
+                    backed by glowing traveler reviews.</p>
+            </div>
+            <div class="forBox">
+                <img alt="PP05" src="images/f5.jpg">
+                <h4>Eco & Ethical Tourism</h4>
+                <p>Travel responsibly, support local communities, protect wildlife, and explore sustainably with
+                    eco-conscious tours designed for impact.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FIFTH SECTION (Testimonials) -->
+    <div class="fivScreen">
+        <h5>What Customers Say</h5>
+        <div class="testimonial-grid">
+            <script>
+                // Load testimonials from an XML file and display them
+                document.addEventListener("DOMContentLoaded", function () {
+                    fetch("details.xml")
+                        .then(response => response.text())
+                        .then(data => {
+                            let parser = new DOMParser();
+                            let xml = parser.parseFromString(data, "application/xml");
+                            let testimonials = xml.querySelectorAll("testimonials > testimonial");
+                            let container = document.querySelector(".testimonial-grid");
+
+                            container.innerHTML = ""; // Clear any placeholder content
+
+                            for (let t of testimonials) {
+                                let img = t.getElementsByTagName("img")[0].textContent;
+                                let name = t.getElementsByTagName("name")[0].textContent;
+                                let username = t.getElementsByTagName("username")[0].textContent;
+                                let text = t.getElementsByTagName("text")[0].textContent;
+                                let stars = parseInt(t.getElementsByTagName("stars")[0].textContent);
+
+                                // Build star ratings
+                                let starHTML = "";
+                                for (let i = 0; i < stars; i++) {
+                                    starHTML += `<i class="star">&#9733;</i>`;
+                                }
+
+                                // Add testimonial card
+                                container.innerHTML += `
+                                    <div class="testimonial-card">
+                                        <div class="user-info">
+                                            <img src="${img}" alt="${name}">
+                                            <div>
+                                                <h3>${name}</h3>
+                                                <p>${username}</p>
+                                            </div>
+                                        </div>
+                                        <p class="testimonial-text">${text}</p>
+                                        <div class="stars">${starHTML}</div>
+                                    </div>
+                                `;
+                            }
+                        })
+                        .catch(err => console.error("Error loading XML:", err));
+                });
+            </script>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="footer-content">
+            <!-- Quick navigation links -->
+            <div class="footer-section links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="packages.html">Packages</a></li>
+                    <li><a href="places.html">Places</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact info -->
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: info@travelsrilanka.com</p>
+                <p>Phone: +94 77 123 4567</p>
+            </div>
+
+            <!-- Social media links -->
+            <div class="footer-section">
+                <h3>Socials</h3>
+                <div class="socials">
+                    <a class="icon" href="#"><img alt="C01" src="images/facebook.png"></a>
+                    <a class="icon" href="#"><img alt="C02" src="images/instagram.png"></a>
+                    <a class="icon" href="#"><img alt="C03" src="images/twitter.png"></a>
+                    <a class="icon" href="#"><img alt="C04" src="images/whatsapp.png"></a>
+                </div>
+            </div>
+
+            <!-- Footer logo -->
+            <div class="footer-section-img">
+                <a href="home.html"><img alt="logo" src="images/logo.png"></a>
+            </div>
+        </div>
+
+        <!-- Bottom copyright -->
+        <div class="footer-bottom">
+            &copy; 2025 Sri Lanka Travel Agency. All rights reserved.
+        </div>
+    </div>
+</body>
+</html>
